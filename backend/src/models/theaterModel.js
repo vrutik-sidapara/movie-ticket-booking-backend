@@ -39,6 +39,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "theaterId",
       as: "screens",
     });
+
+    // ✅ theaters.city_id references cities.id
+    Theater.belongsTo(models.City, {
+      foreignKey: "city_id",
+      as: "city",
+    });
   };
 
   return Theater;

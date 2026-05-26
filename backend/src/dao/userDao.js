@@ -29,7 +29,7 @@ exports.getPublicSchedule = async () => {
       {
         model: Screen,
         as: "screen",
-        attributes: ["id", "name", "capacity", "city_id"],
+        attributes: ["id", "name", "capacity"],
         include: [
           {
             model: Theater,
