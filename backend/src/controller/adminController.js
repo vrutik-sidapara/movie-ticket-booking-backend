@@ -8,7 +8,7 @@ exports.movieAdd = async (req, res) => {
     console.log("req.body:", req.body);
     console.log("req.file:", req.file);
 
-    const image = req.file ? req.file.filename : null;
+    const image = req.file ? req.file.path : null;
     const Movie = await adminService.movieAdd({
       Name,
       Description: Description || "No description", // ✅ FIX,
