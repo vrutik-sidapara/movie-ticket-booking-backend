@@ -43,8 +43,34 @@ exports.getMovies = async (req, res) => {
       success: false,
       message: error.message,
     });
-  }                                         
-}
+  }
+};
+
+exports.updateMovie = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { Name, Description, Duration, language, genre } = req.body;
+    const image = req.file ? req.file.path : null;
+    const data = { Name, Description, Duration, language, genre };
+    if (image) data.image = image;
+    const result = await adminService.updateMovie(id, data);
+    res
+      .status(200)
+      .json({ success: true, message: "Movie updated", data: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+exports.deleteMovie = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await adminService.deleteMovie(id);
+    res.status(200).json({ success: true, message: "Movie deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 exports.linkTheater = async (req, res) => {
   try {
@@ -167,11 +193,7 @@ exports.getSchedule = async (req, res) => {
 
 exports.createScreen = async (req, res) => {
   try {
-    const {
-      theaterId,
-      name,
-      capacity,
-    } = req.body;
+    const { theaterId, name, capacity } = req.body;
     const Screen = await adminService.createScreen({
       theaterId,
       name,
@@ -204,7 +226,7 @@ exports.getScreen = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 exports.createTimesheet = async (req, res) => {
   try {
@@ -240,4 +262,4 @@ exports.getTimesheet = async (req, res) => {
       message: error.message,
     });
   }
-}
+};

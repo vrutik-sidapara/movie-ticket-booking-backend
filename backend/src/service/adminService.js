@@ -8,6 +8,14 @@ exports.getMovies = async () => {
   return await adminDao.getMovies();
 };
 
+exports.updateMovie = async (id, data) => {
+  return await adminDao.updateMovie(id, data);
+};
+
+exports.deleteMovie = async (id) => {
+  return await adminDao.deleteMovie(id);
+};
+
 exports.getTheaterById = async (id) => {
   return await adminDao.getTheaterById(id);
 };

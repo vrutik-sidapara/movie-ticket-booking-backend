@@ -13,6 +13,8 @@ routes.post(
   adminController.movieAdd,
 );
 routes.get("/movie", verifyToken, isAdmin, adminController.getMovies);
+routes.put("/movie/:id", verifyToken, isAdmin, upload.single("image"), adminController.updateMovie);
+routes.delete("/movie/:id", verifyToken, isAdmin, adminController.deleteMovie);
 
 routes.post("/theater", verifyToken, isAdmin, adminController.linkTheater);
 routes.get("/theater", verifyToken, isAdmin, adminController.getTheater);

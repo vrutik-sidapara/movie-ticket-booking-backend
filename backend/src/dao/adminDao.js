@@ -9,6 +9,18 @@ exports.getMovies = async () => {
   return movies.map((m) => m.toJSON());
 };
 
+exports.updateMovie = async (id, data) => {
+  const [updated] = await Movie.update(data, { where: { id } });
+  if (!updated) throw new Error("Movie not found");
+  return await Movie.findByPk(id);
+};
+
+exports.deleteMovie = async (id) => {
+  const deleted = await Movie.destroy({ where: { id } });
+  if (!deleted) throw new Error("Movie not found");
+  return deleted;
+};
+
 exports.getTheaterById = async (id) => {
   const theater = await Theater.findByPk(id);
   return theater ? theater.toJSON() : null;
