@@ -102,3 +102,11 @@ exports.createTimesheet = async (data) => {
 exports.getTimesheet = async () => {
   return await Timesheet.findAll();
 };
+
+exports.getDashboardStats = async () => {
+  const totalMovies = await Movie.count();
+  const totalScreens = await Screen.count();
+  const totalSchedules = await Schedule.count();
+
+  return { totalMovies, totalScreens, totalSchedules, bookingsToday: 0 };
+};

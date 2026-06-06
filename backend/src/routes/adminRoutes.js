@@ -39,4 +39,6 @@ routes.get("/timesheet", verifyToken, isAdmin, adminController.getTimesheet);
 routes.post("/schedule", verifyToken, isAdmin, adminController.createSchedule);
 routes.get("/show-schedule", verifyToken, isAdmin, adminController.getSchedule);
 
+routes.get("/stats", verifyToken, isAdmin, adminController.getDashboardStats);
+
 module.exports = routes;

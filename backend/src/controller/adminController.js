@@ -263,3 +263,13 @@ exports.getTimesheet = async (req, res) => {
     });
   }
 };
+
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const stats = await adminService.getDashboardStats();
+    res.status(200).json({ success: true, data: stats });
+  } catch (error) {
+    console.error("getDashboardStats error:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

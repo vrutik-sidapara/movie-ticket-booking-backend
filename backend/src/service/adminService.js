@@ -55,3 +55,7 @@ exports.createTimesheet = async (data) => {
 exports.getTimesheet = async () => {
   return await adminDao.getTimesheet();
 };
+
+exports.getDashboardStats = async () => {
+  return await adminDao.getDashboardStats();
+};
