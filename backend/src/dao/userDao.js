@@ -13,8 +13,20 @@ exports.getMovies = async () => {
   return await Movie.findAll();
 };
 
+const { Op } = require("sequelize");
+
 exports.getPublicSchedule = async () => {
+  const today = new Date().toISOString().split("T")[0];
+
+  const next7Days = new Date();
+  next7Days.setDate(next7Days.getDate() + 7);
+
   return await Schedule.findAll({
+    where: {
+      date: {
+        [Op.between]: [today, next7Days.toISOString().split("T")[0]],
+      },
+    },
     include: [
       {
         model: Movie,
@@ -46,6 +58,7 @@ exports.getPublicSchedule = async () => {
         ],
       },
     ],
+    order: [["date", "ASC"]],
   });
 };
 
