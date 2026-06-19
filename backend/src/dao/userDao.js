@@ -19,7 +19,7 @@ exports.getPublicSchedule = async () => {
   const today = new Date().toISOString().split("T")[0];
 
   const next7Days = new Date();
-  next7Days.setDate(next7Days.getDate() + 7);
+  next7Days.setDate(next7Days.getDate() + 6);
 
   return await Schedule.findAll({
     where: {
