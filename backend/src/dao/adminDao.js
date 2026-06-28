@@ -67,17 +67,28 @@ exports.createSchedule = async (data) => {
 };
 
 exports.getSchedule = async () => {
+  const today = new Date().toISOString().split("T")[0];
+  
+  const next7Days = new Date();
+  next7Days.setDate(next7Days.getDate() + 6);
+  const next7DaysStr = next7Days.toISOString().split("T")[0];
+
   return await Schedule.findAll({
+    where: {
+      date: {
+        [Op.between]: [today, next7DaysStr],
+      },
+    },
     include: [
       {
         model: Movie,
         as: "movie",
-        attributes: ["id", "Name", "Duration", "language", "genre"], // ✅ match your Movie model fields
+        attributes: ["id", "Name", "Duration", "language", "genre"],
       },
       {
         model: Timesheet,
         as: "timesheet",
-        attributes: ["id", "startTime", "endTime"], // ✅ match your Timesheet model fields
+        attributes: ["id", "startTime", "endTime"],
       },
       {
         model: Screen,
@@ -85,13 +96,14 @@ exports.getSchedule = async () => {
         attributes: ["id", "name", "capacity"],
         include: [
           {
-            model: Theater, // ✅ Theater via Screen (correct path)
+            model: Theater,
             as: "theater",
             attributes: ["id", "name", "address"],
           },
         ],
       },
     ],
+    order: [["date", "ASC"]],
   });
 };
 
