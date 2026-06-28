@@ -178,10 +178,18 @@ exports.createSchedule = async (req, res) => {
 exports.getSchedule = async (req, res) => {
   try {
     const data = await adminService.getSchedule();
+
+    const result = data.map((s) => {
+      const plain = s.toJSON();
+      plain.bookedSeats = (plain.bookings || []).flatMap((b) => b.seats || []);
+      delete plain.bookings;
+      return plain;
+    });
+
     res.status(200).json({
       success: true,
       message: "Get All ScheduleData",
-      data: data,
+      data: result,
     });
   } catch (error) {
     res.status(500).json({

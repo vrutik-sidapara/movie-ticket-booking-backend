@@ -1,4 +1,11 @@
-const { Movie, Theater, Schedule, Timesheet, Screen } = require("../models");
+const {
+  Movie,
+  Theater,
+  Schedule,
+  Timesheet,
+  Screen,
+  Booking,
+} = require("../models");
 const { Op } = require("sequelize");
 
 exports.movieAdd = async (data) => {
@@ -69,7 +76,7 @@ exports.createSchedule = async (data) => {
 
 exports.getSchedule = async () => {
   const today = new Date().toISOString().split("T")[0];
-  
+
   const next7Days = new Date();
   next7Days.setDate(next7Days.getDate() + 6);
   const next7DaysStr = next7Days.toISOString().split("T")[0];
@@ -77,7 +84,7 @@ exports.getSchedule = async () => {
   return await Schedule.findAll({
     where: {
       date: {
-        [Op.gte]: today
+        [Op.gte]: today,
       },
     },
     include: [
@@ -102,6 +109,12 @@ exports.getSchedule = async () => {
             attributes: ["id", "name", "address"],
           },
         ],
+      },
+      {
+        model: Booking,
+        as: "bookings",
+        attributes: ["seats"],
+        required: false,
       },
     ],
     order: [["date", "ASC"]],
