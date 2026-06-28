@@ -35,11 +35,12 @@ exports.getPublicSchedule = async (req, res) => {
 
 exports.booking = async (req, res) => {
   try {
-    const { user_id, schedule_id, seats_no } = req.body;
+    const { user_id, schedule_id, seats_no, seats } = req.body;
     const Booking = await userService.booking({
       user_id,
       schedule_id,
       seats_no,
+      seats
     });
     res.status(200).json({
       success: true,
