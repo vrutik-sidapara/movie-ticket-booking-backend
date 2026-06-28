@@ -1,4 +1,5 @@
 const { Movie, Theater, Schedule, Timesheet, Screen } = require("../models");
+const { Op } = require("sequelize");
 
 exports.movieAdd = async (data) => {
   return await Movie.create(data);
