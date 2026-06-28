@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "screenId",
       as: "screen",
     });
+
+    Schedule.hasMany(models.Booking, {
+      foreignKey: "schedule_id",
+      as: "bookings",
+    });
   };
 
   return Schedule;
