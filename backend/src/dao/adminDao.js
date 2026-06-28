@@ -5,6 +5,7 @@ const {
   Timesheet,
   Screen,
   Booking,
+  City,
 } = require("../models");
 const { Op } = require("sequelize");
 
@@ -107,6 +108,13 @@ exports.getSchedule = async () => {
             model: Theater,
             as: "theater",
             attributes: ["id", "name", "address"],
+            include: [
+              {
+                model: City,
+                as: "city",
+                attributes: ["id", "Name"],
+              },
+            ]
           },
         ],
       },
