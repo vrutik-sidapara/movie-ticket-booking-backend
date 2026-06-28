@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      seats: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: null,
+      },
       status: {
         type: DataTypes.ENUM("confirmed", "cancelled"),
         defaultValue: "confirmed",
