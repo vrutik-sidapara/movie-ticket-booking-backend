@@ -76,7 +76,7 @@ exports.getSchedule = async () => {
   return await Schedule.findAll({
     where: {
       date: {
-        [Op.between]: [today, next7DaysStr],
+        [Op.gte]: [today, next7DaysStr],
       },
     },
     include: [
