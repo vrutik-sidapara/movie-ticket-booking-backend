@@ -19,10 +19,17 @@ exports.getMovies = async (req, res) => {
 exports.getPublicSchedule = async (req, res) => {
   try {
     const data = await userService.getPublicSchedule();
+
+    const result = data.map((s) => {
+      const plain = s.toJSON();
+      plain.bookedSeats = (plain.bookings || []).flatMap((b) => b.seats || []);
+      delete plain.bookings;
+      return plain;
+    });
     res.status(200).json({
       success: true,
       message: "Get All ScheduleData",
-      data: data,
+      data: result,
     });
   } catch (error) {
     console.error("getPublicSchedule ERROR:", error);
@@ -40,7 +47,7 @@ exports.booking = async (req, res) => {
       user_id,
       schedule_id,
       seats_no,
-      seats
+      seats,
     });
     res.status(200).json({
       success: true,

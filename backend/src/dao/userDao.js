@@ -57,6 +57,13 @@ exports.getPublicSchedule = async () => {
           },
         ],
       },
+      {
+        model: Booking,
+        as: "bookings",
+        attributes: ["seats"],
+        where: { status: "confirmed" },
+        required: false,
+      },
     ],
     order: [["date", "ASC"]],
   });
