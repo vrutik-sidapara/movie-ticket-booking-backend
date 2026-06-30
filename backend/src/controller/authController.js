@@ -28,16 +28,17 @@ exports.register = async (req, res) => {
 exports.verifyUser = async (req, res) => {
   try {
     const { token } = req.query;
-
     const user = await authService.verifyUser(token);
 
     if (!user) {
-      return res.redirect(`${process.env.FRONTEND_URL}/login?verified=false`);
+      return res.redirect(`${process.env.FRONTEND_URL}/?verified=false`);
     }
 
-    return res.redirect(`${process.env.FRONTEND_URL}/login?verified=true`);
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/?verified=true&email=${encodeURIComponent(user.email)}`,
+    );
   } catch (err) {
-    return res.redirect(`${process.env.FRONTEND_URL}/login?verified=false`);
+    return res.redirect(`${process.env.FRONTEND_URL}/?verified=false`);
   }
 };
 
