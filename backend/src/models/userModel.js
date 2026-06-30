@@ -36,15 +36,21 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "user",
       },
 
-      // is_verified: {
-      //   type: DataTypes.BOOLEAN,
-      //   defaultValue: false,
-      // },
+      is_verified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
 
-      // verification_token: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
+      verification_token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      token_expiry: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       tableName: "users",

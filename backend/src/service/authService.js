@@ -1,21 +1,32 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const userDao = require("../dao/authDao");
+const emailService = require("../service/emailService");
 
 exports.register = async (userdata) => {
   const hashedPassword = await bcrypt.hash(userdata.password, 10);
   userdata.password = hashedPassword;
 
-  return await userDao.register({
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day from now
+
+  const user = await userDao.register({
     ...userdata,
     password: hashedPassword,
-    is_verified: true,
+    is_verified: false,
+    verification_token: token,
+    token_expiry: expiry,
   });
+
+  await emailService.sendVerificationEmail(userdata.email, token);
+
+  return user;
 };
 
-// exports.verifyUser = async (token) => {
-//   return await userDao.verifyUser(token);
-// };
+exports.verifyUser = async (token) => {
+  return await userDao.verifyUser(token);
+};
 
 exports.login = async ({ email, password }) => {
   console.time("Login Execution Time");
@@ -30,9 +41,9 @@ exports.login = async ({ email, password }) => {
     throw new Error("Invalid email or password");
   }
 
-  // if (!user.is_verified) {
-  //   throw new Error("Please verify your email");
-  // }
+  if (!user.is_verified) {
+    throw new Error("Please verify your email");
+  }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {

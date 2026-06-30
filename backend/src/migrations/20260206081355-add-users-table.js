@@ -28,15 +28,19 @@ module.exports = {
         allowNull: false,
         defaultValue: "user",
       },
-      // is_verified: {
-      //   type: Sequelize.BOOLEAN,
-      //   allowNull: false,
-      //   defaultValue: false,
-      // },
-      // verification_token: {
-      //   type: Sequelize.STRING,
-      //   allowNull: true,
-      // },
+      is_verified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      verification_token: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      token_expiry: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -10,19 +10,12 @@ exports.register = async (req, res) => {
       email,
       password,
       role,
-      // verification_token: token,
     });
-
-    // 🔥 Send email here (nodemailer later)
-    // console.log(
-    //   `Verify link: http://localhost:3000/api/auth/verify?token=${token}`,
-    // );
 
     res.status(201).json({
       success: true,
       message: "User registered successfully",
       user,
-      // token,
     });
   } catch (error) {
     res.status(400).json({
@@ -32,26 +25,26 @@ exports.register = async (req, res) => {
   }
 };
 
-// exports.verifyUser = async (req, res) => {
-//   try {
-//     const { token } = req.query;
+exports.verifyUser = async (req, res) => {
+  try {
+    const { token } = req.query;
 
-//     const user = await authService.verifyUser(token);
+    const user = await authService.verifyUser(token);
 
-//     if (!user) {
-//       return res.status(400).json({
-//         message: "Invalid token",
-//       });
-//     }
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid or expired verification link.",
+      });
+    }
 
-//     res.json({
-//       success: true,
-//       message: "User verified successfully",
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+    res.json({
+      success: true,
+      message: "User verified successfully",
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 exports.login = async (req, res) => {
   try {
