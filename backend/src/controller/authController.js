@@ -32,17 +32,12 @@ exports.verifyUser = async (req, res) => {
     const user = await authService.verifyUser(token);
 
     if (!user) {
-      return res.status(400).json({
-        message: "Invalid or expired verification link.",
-      });
+      return res.redirect(`${process.env.FRONTEND_URL}/login?verified=false`);
     }
 
-    res.json({
-      success: true,
-      message: "User verified successfully",
-    });
+    return res.redirect(`${process.env.FRONTEND_URL}/login?verified=true`);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.redirect(`${process.env.FRONTEND_URL}/login?verified=false`);
   }
 };
 
