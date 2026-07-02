@@ -25,6 +25,17 @@ exports.verifyUser = async (token) => {
   return user;
 };
 
+exports.updateVerificationToken = async (email, token, expiry) => {
+  const user = await User.findOne({ where: { email } });
+  if (!user) return null;
+
+  user.verification_token = token;
+  user.token_expiry = expiry;
+  await user.save();
+
+  return user;
+};
+
 exports.findByEmail = async (email) => {
   return await User.findOne({ where: { email } });
 };

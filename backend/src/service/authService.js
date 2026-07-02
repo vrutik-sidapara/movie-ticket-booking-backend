@@ -28,6 +28,26 @@ exports.verifyUser = async (token) => {
   return await userDao.verifyUser(token);
 };
 
+exports.resendVerification = async (email) => {
+  const user = await userDao.findByEmail(email);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  if (user.is_verified) {
+    throw new Error("Email is already verified");
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
+
+  await userDao.updateVerificationToken(email, token, expiry);
+  await emailService.sendVerificationEmail(email, token);
+
+  return { message: "Verification email resent" };
+};
+
 exports.login = async ({ email, password }) => {
   console.time("Login Execution Time");
 
